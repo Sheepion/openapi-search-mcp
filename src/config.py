@@ -8,7 +8,8 @@ HTTP_METHODS = ['get', 'post', 'put', 'delete', 'patch', 'options', 'head', 'tra
 # HTTP client timeout in seconds
 HTTP_TIMEOUT = 30.0
 
-# Default HTTP port for server mode
+# Default HTTP server settings
+DEFAULT_HTTP_HOST = "0.0.0.0"  # Listen on all network interfaces
 DEFAULT_HTTP_PORT = 8848
 
 # Error message templates
