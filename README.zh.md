@@ -111,7 +111,7 @@ python main.py
 
 ```bash
 # 克隆仓库
-git clone https://github.com/yourusername/openapi-search-mcp.git
+git clone https://github.com/Sheepion/openapi-search-mcp.git
 cd openapi-search-mcp
 
 # 构建并启动容器

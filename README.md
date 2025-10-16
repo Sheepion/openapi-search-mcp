@@ -73,7 +73,7 @@ That's it! The server is now running and ready to accept MCP connections.
 ### Step 1: Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/openapi-search-mcp.git
+git clone https://github.com/Sheepion/openapi-search-mcp.git
 cd openapi-search-mcp
 ```
 
@@ -123,7 +123,7 @@ The easiest way to deploy:
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/openapi-search-mcp.git
+git clone https://github.com/Sheepion/openapi-search-mcp.git
 cd openapi-search-mcp
 
 # Build and start the container
