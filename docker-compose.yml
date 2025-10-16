@@ -1,0 +1,47 @@
+# OpenAPI Search MCP Server - Docker Compose
+# Built with Claude Code
+
+version: '3.8'
+
+services:
+  openapi-search-mcp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: openapi-search-mcp:latest
+    container_name: openapi-search-mcp
+    ports:
+      - "8848:8848"  # HTTP port
+    environment:
+      # Python environment
+      - PYTHONUNBUFFERED=1
+      # You can add custom environment variables here
+      # - DEFAULT_HTTP_PORT=8848
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import httpx; httpx.get('http://localhost:8848/health', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+    # Resource limits (optional, adjust as needed)
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+    # Logging configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+# Optional: Create a custom network
+networks:
+  default:
+    name: mcp-network
+    driver: bridge
