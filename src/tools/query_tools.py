@@ -49,18 +49,21 @@ def register_query_tools(
         return path_service.list_all_paths(name)
 
     @mcp.tool()
-    def get_operation_by_id(name: str, operation_id: str) -> Dict[str, Any]:
+    def get_operation_by_id(name: str, operation_id: str, resolve_refs: bool = True) -> Dict[str, Any]:
         """
         Quickly query endpoint by operationId
 
         Args:
             name: API name
             operation_id: operationId like getUserById
+            resolve_refs: If True (default), automatically resolve all $ref schema references inline.
+                         This provides complete schema definitions in one call, reducing the need
+                         for additional get_schema_details calls. Set to False to keep $ref as-is.
 
         Returns:
-            Complete operation information
+            Complete operation information with optional schema resolution
         """
-        return path_service.get_operation_by_id(name, operation_id)
+        return path_service.get_operation_by_id(name, operation_id, resolve_refs)
 
     @mcp.tool()
     def get_schema_details(name: str, schema_name: str) -> Dict[str, Any]:

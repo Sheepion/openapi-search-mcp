@@ -5,6 +5,7 @@ Path and operation query service
 from typing import Dict, Any
 from src.storage import OpenAPIStorage
 from src.config import HTTP_METHODS, ERROR_PATH_NOT_FOUND, ERROR_OPERATION_NOT_FOUND
+from src.utils.ref_resolver import RefResolver
 
 
 class PathService:
@@ -88,16 +89,17 @@ class PathService:
             "paths": result
         }
 
-    def get_operation_by_id(self, name: str, operation_id: str) -> Dict[str, Any]:
+    def get_operation_by_id(self, name: str, operation_id: str, resolve_refs: bool = True) -> Dict[str, Any]:
         """
         Quickly query endpoint by operationId.
 
         Args:
             name: API name
             operation_id: operationId like getUserById
+            resolve_refs: If True, automatically resolve all $ref schema references (default: True)
 
         Returns:
-            Complete operation information
+            Complete operation information with optional schema resolution
         """
         doc_data, error = self.storage.get_or_error(name)
         if error:
@@ -117,6 +119,12 @@ class PathService:
 
         paths = doc_data.get('paths', {})
         operation = paths[path][method]
+
+        # Resolve schema references if requested
+        if resolve_refs:
+            raw_doc = doc_data.get('raw', {})
+            resolver = RefResolver(raw_doc)
+            operation = resolver.resolve_operation(operation)
 
         return {
             "operation_id": operation_id,
